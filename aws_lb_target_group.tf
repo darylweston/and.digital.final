@@ -4,6 +4,7 @@ resource "aws_lb_target_group" "tg" {
   protocol             = "HTTP"
   vpc_id               = aws_vpc.daryls-vpc.id
   deregistration_delay = "20"
+
   health_check {
     healthy_threshold   = "2"
     interval            = "20"

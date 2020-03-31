@@ -15,3 +15,4 @@ variable "ami" {}
 variable "min" {}
 variable "max" {}
 variable "desired_capacity" {}
+variable "key_pair" {}

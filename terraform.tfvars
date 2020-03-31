@@ -31,3 +31,5 @@ min = "1"
 max = "2"
 
 desired_capacity = "2"
+
+key_pair = "and.digital.key"

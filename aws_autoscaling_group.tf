@@ -100,6 +100,8 @@ resource "aws_autoscaling_policy" "aps3" {
 resource "aws_launch_configuration" "lc" {
   name          = "launch_configuration"
   image_id      = var.ami
+  key_name      = var.key_pair
+  security_groups = [aws_security_group.ssh.id]
   instance_type = "t2.micro"
 }
 
