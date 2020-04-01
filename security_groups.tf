@@ -1,5 +1,5 @@
 resource "aws_security_group" "ssh" {
-  name        = "elb_security_group"
+  name        = "SSH Access"
   description = "ssh"
   vpc_id      = aws_vpc.daryls-vpc.id
 
