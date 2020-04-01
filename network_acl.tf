@@ -3,8 +3,17 @@ resource "aws_network_acl" "main" {
   subnet_ids = [aws_subnet.public1.id]
 
   ingress {
-    protocol   = "tcp" // Allows inbound HTTP traffic from any IPv4 address.
+    protocol   = "tcp" // Allows inbound SSH traffic from your internet or home network (over the internet gateway).
     rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 22
+    to_port    = 22
+  }
+
+  ingress {
+    protocol   = "tcp" // Allows inbound HTTP traffic from any IPv4 address.
+    rule_no    = 110
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 80
@@ -13,20 +22,11 @@ resource "aws_network_acl" "main" {
 
   ingress {
     protocol   = "tcp" // Allows inbound HTTPS traffic from any IPv4 address.
-    rule_no    = 110
+    rule_no    = 120
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 443
     to_port    = 443
-  }
-
-  ingress {
-    protocol   = "tcp" // Allows inbound SSH traffic from your internet or home network (over the internet gateway).
-    rule_no    = 120
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 22
-    to_port    = 22
   }
 
   ingress {
@@ -39,8 +39,17 @@ resource "aws_network_acl" "main" {
   }
 
   egress {
-    protocol   = "tcp" // Allows outbound HTTP traffic from the subnet to the internet.
+    protocol   = "tcp" // Allows outbound SSH access to instances in your private subnet (bastion host)
     rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+
+  egress {
+    protocol   = "tcp" // Allows outbound HTTP traffic from the subnet to the internet.
+    rule_no    = 110
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 80
@@ -49,20 +58,11 @@ resource "aws_network_acl" "main" {
 
   egress {
     protocol   = "tcp" // Allows outbound HTTPS traffic from the subnet to the internet.
-    rule_no    = 110
+    rule_no    = 120
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 443
     to_port    = 443
-  }
-
-  egress {
-    protocol   = "tcp" // Allows outbound SSH access to instances in your private subnet (bastion host)
-    rule_no    = 150
-    action     = "allow"
-    cidr_block = "10.0.30.0/24"
-    from_port  = 22
-    to_port    = 22
   }
 
   tags = {
